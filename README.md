@@ -2,8 +2,20 @@
 
 I created this for maximum convenience for using the Sauce Labs REST API. Commands are designed to be short and memorable!
 
+## Usage
 
-### Job info
+Clone the repo and import supersauce. Use 'import as' syntax as a shortcut:
+```
+import supersauce as ss
+
+ss.jobs('awilbur')
+
+>>> [{'browser_short_version': '9', 'video_url': 'https://saucelabs.com/jobs/f74ea0fa26a24f0296866624dcc648fb/video.flv', 'creation_time': 1458104287, 'custom-data': None, 'browser_version': '9.0.', 'owner': 'awilbur', 'id': 'f74ea0fa26a24f0296866624dcc648fb', 'record_screenshots': True, 'record_video': True, 'build': None, 'passed': None, 'public': None, 'assigned_tunnel_id': None, 'status': 'complete', 'log_url': 'https://saucelabs.com/jobs/f74ea0fa26a24f0296866624dcc648fb/selenium-server.log', 'start_time': 1458104287, 'proxied': False, 'modification_time': 1458104378, 'tags': [], 'consolidated_status': 'complete', 'commands_not_successful': 1, 'name': None, 'end_time': 1458104378, 'error': None, 'os': 'Mac 10.11', 'breakpointed': None, 'browser': 'safari'},
+    ... (x99)
+    ]
+```
+
+### Job info methods
 
 List recent jobs id's belonging to the user (up to `limit`).
 
@@ -65,6 +77,9 @@ Get full info `user`'s latest (single) job.
 ```
 
 
+### Update job methods
+
+
 Update your job `jobid` (or 'latest'/'L'/'l') to `newname`.
 
 ```
@@ -92,14 +107,7 @@ Options:
 >>> {'browser_short_version': '9', 'video_url': 'https://saucelabs.com/jobs/f74ea0fa26a24f0296866624dcc648fb/video.flv', 'creation_time': 1458104287, 'custom-data': None, 'browser_version': '9.0.', 'owner': 'awilbur', 'id': 'f74ea0fa26a24f0296866624dcc648fb', 'record_screenshots': True, 'record_video': True, 'build': 'newbuild', 'passed': True, 'public': None, 'end_time': 1458104378, 'status': 'complete', 'log_url': 'https://saucelabs.com/jobs/f74ea0fa26a24f0296866624dcc648fb/selenium-server.log', 'start_time': 1458104287, 'proxied': False, 'modification_time': 1458150018, 'tags': [], 'consolidated_status': 'passed', 'commands_not_successful': 1, 'name': 'much better name', 'assigned_tunnel_id': None, 'error': None, 'os': 'Mac 10.11', 'breakpointed': None, 'browser': 'safari'}
 ```
 
-
-List all of `user`'s jobs in the range of unix timestamps `fromtime` until `totime`.
-
-```
-    supersauce.jobsfromto('awilbur', 1458101620, 1458101920)
-
->>> [{'id': 'e40108a6081e419b83797f748d66eeba'}, {'id': 'e18ed89b49754074bdfd64af492bf062'}, {'id': 'bf75c08a93164ffa9e661a4839ead3ea'}, {'id': '90ddefddafa44f5ba1ac649a99321007'}, {'id': '8bbf842ab3654a7bb63bbc71c22240cc'}, {'id': '7e8886ab496b4d568f5fdd0fdd6e96a4'}, {'id': '75ac5bb424fe40c7a4b5ec2aef505690'}, {'id': '50cab4505b4c4ab08fc4b8631069789d'}, {'id': '2f3c6635767a4ad9824935ad579054c0'}, {'id': '2628e61ed13a411eae36db11be659afc'}]
-```
+## Tunnel methods
 
 
 List all active tunnels from `user`.
@@ -112,6 +120,18 @@ List all active tunnels from `user`.
 
 >>> ['11f0171429904a2dbd84d36ad0e8c171']
 ```
+
+
+Get tunnel info for the given `tunnelid` from `user`.
+
+```
+    supersauce.gettun('9adbcf49f7024a0b9e9dc238ab761dc8', 'awilbur')
+
+>>> {'status': 'running', 'direct_domains': None, 'vm_version': None, 'last_connected': 1458153907, 'shutdown_time': None, 'ssh_port': 443, 'creation_time': 1458153891, 'id': '9adbcf49f7024a0b9e9dc238ab761dc8', 'user_shutdown': None, 'launch_time': 1458153896, 'domain_names': ['sauce-connect.proxy'], 'use_caching_proxy': None, 'host': 'maki79142.miso.saucelabs.com', 'no_proxy_caching': False, 'use_kgp': True, 'owner': 'awilbur', 'tunnel_identifier': None, 'no_ssl_bump_domains': None, 'shared_tunnel': False, 'metadata': {'hostname': 'appa-3.local', 'git_version': '4494856', 'platform': 'Darwin 15.3.0 Darwin Kernel Version 15.3.0: Thu Dec 10 18:40:58 PST 2015; root:xnu-3248.30.4~1/RELEASE_X86_64 x86_64', 'command': 'bin/sc', 'build': '1879', 'release': '4.3.13', 'nofile_limit': 9999}}
+```
+
+
+## Account methods
 
 
 Calls the activity endpoint for `user`, displaying real-time concurrency usage for all subaccounts.
@@ -144,6 +164,17 @@ Returns account information for `user`.
 ```
 
 
+Access historical account usage.
+
+```
+    supersauce.get_historical_usage()
+
+>>> {'usage': [['2016-1-20', [2, 24]], ['2016-1-21', [5, 1185]], ['2016-1-22', [245, 44507]], ['2016-1-23', [100, 8197]], ['2016-1-25', [3, 482]], ['2016-1-26', [1, 14]], ['2016-1-27', [100, 8904]], ['2016-2-4', [6, 296]], ['2016-2-5', [2, 26]], ['2016-2-9', [1, 53]], ['2016-2-10', [1, 64]], ['2016-2-11', [4, 219]], ['2016-2-12', [24, 13910]], ['2016-2-13', [330, 31796]], ['2016-2-16', [2, 21]], ['2016-2-17', [404, 15329]], ['2016-2-18', [2, 4622]], ['2016-2-19', [4, 3337]], ['2016-2-24', [1, 33]], ['2016-2-25', [512, 144174]], ['2016-2-26', [3, 479]], ['2016-2-27', [1, 5622]], ['2016-3-1', [4, 911]], ['2016-3-3', [4, 1452]], ['2016-3-4', [2, 1179]], ['2016-3-8', [5, 575]], ['2016-3-9', [1, 17]], ['2016-3-10', [1, 277]], ['2016-3-11', [2, 139]], ['2016-3-14', [1, 820]], ['2016-3-15', [2, 1148]], ['2016-3-16', [50, 11004]]], 'username': 'awilbur'}
+```
+
+
+## Info methods
+
 Access the current status of Sauce Labs' services.
 
 ```
@@ -166,16 +197,7 @@ Get list of all browsers currently supported on Sauce Labs.
 ```
 
 
-Access historical account usage.
-
-```
-    supersauce.get_historical_usage()
-
->>> {'usage': [['2016-1-20', [2, 24]], ['2016-1-21', [5, 1185]], ['2016-1-22', [245, 44507]], ['2016-1-23', [100, 8197]], ['2016-1-25', [3, 482]], ['2016-1-26', [1, 14]], ['2016-1-27', [100, 8904]], ['2016-2-4', [6, 296]], ['2016-2-5', [2, 26]], ['2016-2-9', [1, 53]], ['2016-2-10', [1, 64]], ['2016-2-11', [4, 219]], ['2016-2-12', [24, 13910]], ['2016-2-13', [330, 31796]], ['2016-2-16', [2, 21]], ['2016-2-17', [404, 15329]], ['2016-2-18', [2, 4622]], ['2016-2-19', [4, 3337]], ['2016-2-24', [1, 33]], ['2016-2-25', [512, 144174]], ['2016-2-26', [3, 479]], ['2016-2-27', [1, 5622]], ['2016-3-1', [4, 911]], ['2016-3-3', [4, 1452]], ['2016-3-4', [2, 1179]], ['2016-3-8', [5, 575]], ['2016-3-9', [1, 17]], ['2016-3-10', [1, 277]], ['2016-3-11', [2, 139]], ['2016-3-14', [1, 820]], ['2016-3-15', [2, 1148]], ['2016-3-16', [50, 11004]]], 'username': 'awilbur'}
-```
-
-
-# Special Methods
+## Special methods
 
 These do more complex things. Example - investigate() shows how many of a user's recent tests had errors.
 
